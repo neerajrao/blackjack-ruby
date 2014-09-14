@@ -1,5 +1,8 @@
 require 'Card'
 
+=begin rdoc
+A key assumption is a Deck has enough cards for the game to end.
+=end
 class Deck
     SUITS = ["♠", "♥", "♦", "♣"]
     FACES = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
@@ -10,13 +13,7 @@ class Deck
     end
 
     def create_52_card_deck
-        cards = []
-        SUITS.each do |suit|
-            FACES.each do |faceval|
-                cards.push(Card.new(faceval, suit))
-            end
-        end
-        return cards
+        SUITS.collect {|suit| FACES.collect {|face| Card.new(face, suit)}}
     end
 
     def to_s

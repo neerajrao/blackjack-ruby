@@ -17,9 +17,9 @@ def start_game
     end
 
     # init players array
-    players = []
-    (1..numPlayers).each{|position| players.push(Player.new(position, INIT_MONEY))}
+    players = (1..numPlayers).collect{|position| Player.new(position, INIT_MONEY)}
 
+    # Pass dealer a ref to the players and let him start the game
     Dealer.new(players).start_game
 end
 
