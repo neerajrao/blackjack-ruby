@@ -1,19 +1,27 @@
+$:.unshift('.') # include cwd in path
 require 'Card'
+require 'Constants'
+include Constants
 
 =begin rdoc
 A key assumption is a Deck has enough cards for the game to end.
+Methods are named similary to Ruby built-ins so they are easy
+to remember. E.g. pop to take a card from the deck, empty? to
+check if the deck is empty etc.
 =end
 class Deck
-    SUITS = ["♠", "♥", "♦", "♣"]
-    FACES = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
-
+    attr_accessor :cards
     def initialize
+        reset
+    end
+
+    def reset
         @cards = create_52_card_deck()
         @cards.shuffle!
     end
 
     def create_52_card_deck
-        SUITS.collect {|suit| FACES.collect {|face| Card.new(face, suit)}}
+        SUITS.map{|suit| FACES.map{|face| Card.new(face, suit)}}.flatten
     end
 
     def to_s
@@ -24,11 +32,10 @@ class Deck
         @cards.empty?
     end
 
-    def reset
-        initialize
-    end
-
+    # take a card from the deck
+    # if empty, re-init the deck. This way, the deck never runs out of cards
     def pop
+        reset if empty?
         @cards.pop
     end
 end

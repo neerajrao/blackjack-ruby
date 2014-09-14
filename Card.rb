@@ -1,14 +1,15 @@
+$:.unshift('.') # include cwd in path
 require 'Deck'
 
 class Card
     attr_reader :value
 
     def initialize(faceval, suit)
-        if not Deck::FACES.include?faceval
+        unless Deck::FACES.include?faceval
             raise ArgumentError.new("Face value must be one of: #{Deck::FACES.join(", ")}")
         end
 
-        if not Deck::SUITS.include?suit
+        unless Deck::SUITS.include?suit
             raise ArgumentError.new("Suit must be one of: #{Deck::SUITS.join(", ")}")
         end
 
