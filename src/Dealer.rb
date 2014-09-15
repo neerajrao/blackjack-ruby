@@ -21,61 +21,11 @@ class Dealer
         puts "\nStarting a new round..."
         puts "-------------------------\n\n"
 
-        reset_player_hands
-        reset_self_hand
-        deal_initial_cards_to_hand(@hand)
+        setup_round
 
         @players.each do |player|
-            puts ">>>> #{player}\n\n"
             player.hands.each do |player_hand|
-                player.set_bet_on_hand(player_hand)
-
-                deal_initial_cards_to_hand(player_hand)
-
-                while true
-                    show_hand(player, player_hand)
-
-                    # if player got blackjack, go on to next hand immediately
-                    if player_hand.is_blackjack?
-                        puts "#{player}, your hand got blackjack!\n\n"
-                        break
-                    end
-
-                    show_dealer_hand
-
-                    # ask player for moves
-                    valid_moves_map = build_valid_moves_map_for_hand(player, player_hand)
-                    move = player.prompt_for_move(valid_moves_map)
-
-                    if player_stands(move)
-                        break
-
-                    elsif player_doubles_down(move)
-                        puts "Doubling down on your hand"
-                        player.double_down_on_hand(player_hand)
-                        puts "Your bet is now #{player_hand.bet}; you have $#{player.money} left\n\n"
-                        deal_to_hand(player_hand)
-                        show_hand(player, player_hand)
-                        break
-
-                    elsif player_splits(move)
-                        puts "Splitting your hand. No resplits are allowed."
-                        new_hand = player.split_hand(player_hand)
-                        deal_to_hand(player_hand)
-                        deal_to_hand(new_hand)
-                        show_hand(player, player_hand)
-                        show_hand(player, new_hand)
-                        break if player_hand.is_bust?
-
-                    else #player hits
-                        deal_to_hand(player_hand)
-                        if player_hand.is_bust?
-                            show_hand(player, player_hand)
-                            puts "Sorry, #{player}, your hand busted\n\n"
-                            break
-                        end
-                    end
-                end
+                process_player_hand(player, player_hand)
             end
         end
 
@@ -88,13 +38,96 @@ class Dealer
         @game_over = is_game_over?
     end
 
+    # reset all hands
+    # deal initial two cards to all players and to self (dealer)
+    def setup_round
+        reset_player_hands
+        reset_self_hand
+
+        @players.each do |player|
+            puts ">>>> #{player}\n\n"
+            player.hands.each do |player_hand|
+                player.set_bet_on_hand(player_hand)
+                deal_initial_cards_to_hand(player_hand)
+                show_hand(player, player_hand)
+            end
+        end
+
+        deal_initial_cards_to_hand(@hand)
+        show_dealer_hand
+        puts "Initial cards dealt\n\n\n\n"
+    end
+
+    def reset_player_hands
+        @players.map{|player| player.reset_hands}
+    end
+
+    def reset_self_hand
+        @hand.reset
+    end
+
     def deal_initial_cards_to_hand(hand)
         2.times{deal_to_hand(hand)}
     end
 
-    def deal_to_hand(hand)
-        card = @deck.pop
-        hand.push(card)
+    def show_dealer_hand
+        show_hand(self, @hand)
+    end
+
+    def show_hand(player, hand)
+        puts "#{player}'s hand:\n" +
+             "------------------\n" +
+             "#{hand}"
+    end
+
+    def process_player_hand(player, player_hand)
+        puts ">>>> #{player}\n\n"
+        show_hand(player, player_hand)
+        show_dealer_hand
+
+        # if player got blackjack, go on to next hand immediately
+        if player_hand.is_blackjack?
+            puts "#{player}, your hand got blackjack!\n\n"
+            break
+        end
+
+        # ask player for moves
+        valid_moves_map = build_valid_moves_map_for_hand(player, player_hand)
+        move = player.prompt_for_move(valid_moves_map)
+
+        if player_stands_with_move(move)
+            return
+
+        elsif player_doubles_down_with_move(move)
+            puts "Doubling down on your hand"
+            player.double_down_on_hand(player_hand)
+            puts "Your bet is now #{player_hand.bet}; you have $#{player.money} left\n\n"
+            deal_to_hand(player_hand)
+            show_hand(player, player_hand)
+
+        else
+            if player_splits_with_move(move)
+                puts "Splitting your hand. No resplits are allowed."
+                new_hand = player.split_hand(player_hand)
+
+                deal_to_hand(player_hand)
+                deal_to_hand(new_hand)
+
+                puts "Here are the resulting split hands:\n\n"
+                show_hand(player, player_hand)
+                show_hand(player, new_hand)
+
+            else #player hits
+                deal_to_hand(player_hand)
+            end
+
+            if player_hand.is_bust?
+                show_hand(player, player_hand)
+                puts "Sorry, #{player}, your hand busted\n\n"
+            else
+                process_player_hand(player, player_hand)
+            end
+        end
     end
 
     def build_valid_moves_map_for_hand(player, hand)
@@ -104,12 +137,33 @@ class Dealer
         return valid_moves_map
     end
 
+    def player_stands_with_move(move)
+        move == STAND_KEY
+    end
+
+    def player_doubles_down_with_move(move)
+        move == DOUBLE_DOWN_KEY
+    end
+
+    def player_splits_with_move(move)
+        move == SPLIT_KEY
+    end
+
     def deal_to_self
         puts "Dealing to #{self}\n\n"
         until self.should_stand?
             deal_to_hand(@hand)
         end
         show_dealer_hand
+    end
+
+    def should_stand?
+        @hand.value >= STAND_VALUE
+    end
+
+    def deal_to_hand(hand)
+        card = @deck.pop
+        hand.push(card)
     end
 
     def settle_bets_at_end_of_round
@@ -173,30 +227,8 @@ class Dealer
         end
     end
 
-    def show_dealer_hand
-        show_hand(self, @hand)
-    end
-
-    def show_hand(player, hand)
-        puts "#{player}'s hand:\n" +
-             "------------------\n" +
-             "#{hand}"
-    end
-
     def retain_only_solvent_players_at_end_of_round
         @players = @players.select {|player| player.is_solvent?}
-    end
-
-    def reset_player_hands
-        @players.map{|player| player.reset_hands}
-    end
-
-    def reset_self_hand
-        @hand.reset
-    end
-
-    def should_stand?
-        @hand.value >= STAND_VALUE
     end
 
     def is_game_over?
@@ -219,18 +251,6 @@ class Dealer
         else
             return false
         end
-    end
-
-    def player_stands(move)
-        move == STAND_KEY
-    end
-
-    def player_doubles_down(move)
-        move == DOUBLE_DOWN_KEY
-    end
-
-    def player_splits(move)
-        move == DOUBLE_DOWN_KEY
     end
 
     def to_s
