@@ -1,4 +1,4 @@
-$:.unshift('.') # include cwd in path
+$:.unshift("#{File.dirname(__FILE__)}") # add source directory to path
 require 'Deck'
 
 class Card
@@ -6,11 +6,11 @@ class Card
 
     def initialize(faceval, suit)
         unless Deck::FACES.include?faceval
-            raise ArgumentError.new("Face value must be one of: #{Deck::FACES.join(", ")}")
+            raise ArgumentError.new("Face value must be one of: #{FACES.join(", ")}")
         end
 
         unless Deck::SUITS.include?suit
-            raise ArgumentError.new("Suit must be one of: #{Deck::SUITS.join(", ")}")
+            raise ArgumentError.new("Suit must be one of: #{SUITS.join(", ")}")
         end
 
         @face = "#{faceval.to_s} #{suit}"

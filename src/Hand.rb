@@ -1,4 +1,4 @@
-$:.unshift('.') # include cwd in path
+$:.unshift("#{File.dirname(__FILE__)}") # add source directory to path
 require 'Constants'
 include Constants
 
