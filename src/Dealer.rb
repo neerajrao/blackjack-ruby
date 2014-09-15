@@ -51,12 +51,15 @@ class Dealer
                         break
 
                     elsif player_doubles_down(move)
+                        puts "Doubling down on your hand"
                         player.double_down_on_hand(player_hand)
+                        puts "Your bet is now #{player_hand.bet}; you have $#{player.money} left\n\n"
                         deal_to_hand(player_hand)
                         show_hand(player, player_hand)
                         break
 
                     elsif player_splits(move)
+                        puts "Splitting your hand. No resplits are allowed."
                         new_hand = player.split_hand(player_hand)
                         deal_to_hand(player_hand)
                         deal_to_hand(new_hand)

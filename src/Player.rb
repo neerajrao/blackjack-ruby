@@ -62,33 +62,39 @@ class Player
             break if bet > 0 && bet <= bet_limit
             puts "Sorry, invalid bet amount. You can bet up to $#{bet_limit}\n\n"
         end
-        @money -= bet
-        hand.bet += bet
+        set_bet(hand, bet)
 
         puts "Thank you, you have $#{@money} left\n\n"
     end
 
-    def double_down_on_hand(hand)
-        puts "Doubling down on your hand"
-        @money -= hand.bet
-        hand.bet *= 2
-        puts "Your bet is now #{hand.bet}; you have $#{@money} left\n\n"
+    def set_bet(hand, bet)
+        @money -= bet
+        hand.bet += bet
     end
 
     def can_double_down_with_hand?(hand)
         hand.is_newly_dealt? && hand.bet <= @money
     end
 
-    def split_hand(hand)
-        puts "Splitting your hand. No resplits are allowed."
-        new_hand = Hand.new
-        new_hand.bet = hand.bet
-        new_hand.push(hand.pop)
-        @hands.push(new_hand)
-        return new_hand
+    def double_down_on_hand(hand)
+        unless can_double_down_with_hand?hand
+            raise ArgumentError.new("Cannot double down with hand: #{hand}")
+        end
+        set_double_down_bet_on_hand(hand)
     end
 
     def can_split_hand?(hand)
         hand.can_be_split? && hand.bet <= @money
+    end
+
+    def split_hand(hand)
+        unless can_split_hand?hand
+            raise ArgumentError.new("Cannot split hand: #{hand}")
+        end
+        new_hand = Hand.new
+        new_hand.push(hand.pop)
+        set_bet(new_hand, hand.bet)
+        @hands.push(new_hand)
+        return new_hand
     end
 end
