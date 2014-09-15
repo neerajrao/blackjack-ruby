@@ -4,7 +4,10 @@ require 'Player'
 require 'Constants'
 
 =begin rdoc
+Most code is written to be self-documenting.
+
 House rules:
+* No hole card
 * Blackjack wins 3:2
 * Dealer stands at 17
 * Double-down only on first two cards
@@ -12,7 +15,12 @@ House rules:
 * Splits allowed on same value cards
 * Resplits allowed up to 4 hands
 
-Most code is written to be self-documenting.
+This script starts the Blackjack game. It prompts for the number of
+players in the Blackjack game and then passes control to the
++Dealer+ class.
+
+Players are stored in the +players+ array. A reference to this array
+is made available to the +Dealer+ object.
 =end
 
 def start_game

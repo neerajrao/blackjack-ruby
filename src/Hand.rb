@@ -3,9 +3,20 @@ require 'Constants'
 include Constants
 
 =begin rdoc
+Code is written to be self-documenting.
+
 Methods are named similary to Ruby built-ins so they are easy
-to remember. E.g. push to add a card to the deck
+to remember. E.g. pop to take a card from the hand, push to
+add a card to the hand etc
+
+This class represents a player's or a dealer's hand. A hand has
+a number of playing cards, an associated value (that is a function
+of its constituent cards) as well as an associated bet amount.
+
+This class also has convenience methods to determine whether it
+is eligible to be split or to check if it makes a Blackjack/natural.
 =end
+
 class Hand
     attr_accessor :bet
     attr_reader :cards, :value

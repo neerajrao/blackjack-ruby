@@ -3,9 +3,41 @@ require 'Deck'
 require 'Constants'
 include Constants
 
+=begin rdoc
+Code is written to be self-documenting.
+
+This class represents the Blackjack dealer and, as such, implements
+the Blackjack game algorithm. We choose to separate the Player and
+Dealer classes because, logically, it is the dealer that implements
+the Blackjack control flow and algorithm whereas the Players just
+respond to the dealer and make decisions about what move to make next
+based on their hands and their money.
+
+Like a +Player+, the +Dealer+ also has a hand. However, the dealer is only
+limited to a single hand unlike a Player who may have more than one
+hands resulting from a split.
+
+The +play_round+ function implements the game algorithm. A brief outline follows:
+* for each round of the game
+    * each player and the dealer himself start out with a clean hand (i.e., no cards
+      and no bets)
+    * the dealer asks each player to place a bet on their hand
+    * the dealer deals out two initial cards to each player
+    * the dealer deals himself two initial cards
+    * for each player and each hand, the dealer
+        * asks the player to choose an action. The available actions depend on
+          the bet placed on the hand, the cards in the hand and the amount
+          of money the player has left.
+        * updates the player's hand depending on the chosen action
+    * the dealer then finishes dealing himself cards until he stands at 17
+    * the dealer then settles any bets depending on the result
+    * if there are still solvent players, the game can continue, provided the
+      user wishes to
+=end
+
 class Dealer
     def initialize(players)
-        @hand = Hand.new # dealer always has only one hand
+        @hand = Hand.new
         @deck = Deck.new
         @players = players
         @game_over = false

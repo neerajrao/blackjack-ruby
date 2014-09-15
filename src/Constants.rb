@@ -1,6 +1,11 @@
+=begin rdoc
+This module defines various constants used by the various
+Blackjack classes.
+=end
 module Constants
     HOUSE_RULES = "House rules:\n" +
                   "------------\n" +
+                  "  * No hole card\n" +
                   "  * Blackjack wins 3:2\n" +
                   "  * Dealer stands at 17\n" +
                   "  * Double-down only on first two cards\n" +

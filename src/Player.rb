@@ -2,9 +2,22 @@ $:.unshift("#{File.dirname(__FILE__)}") # add source directory to path
 require 'Hand'
 
 =begin rdoc
-A player may have many hands (depending on how many times he splits it). (Contrast
-this with the dealer who always has only one hand)
+Code is written to be self-documenting.
+
+This class represents a Blackjack player. We choose to have a separate
+class for the Dealer because, logically, it is the dealer that implements
+the Blackjack control flow and algorithm.
+
+A player is associated with a certain position on the table, and has
+one (or possibly more) hand(s). The exact number of hands depends
+on how many times the player chose to split his hands. Contrast this
+with the dealer who always has only one hand. A player also has a
+certain amount of money to place bets with.
+
+This class also has convenience functions to determine if a given
+hand can be split or doubled down etc.
 =end
+
 class Player
     attr_reader :position, :hands
     attr_accessor :money

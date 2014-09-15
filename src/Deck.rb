@@ -4,11 +4,16 @@ require 'Constants'
 include Constants
 
 =begin rdoc
-A key assumption is a Deck has enough cards for the game to end.
+Code is written to be self-documenting.
+
 Methods are named similary to Ruby built-ins so they are easy
-to remember. E.g. pop to take a card from the deck, empty? to
-check if the deck is empty etc.
+to remember. E.g. pop to take a card from the deck
+
+This class represents a playing card deck that the dealer deals
+from. A key assumption is that a Deck has enough cards for the game
+to end.
 =end
+
 class Deck
     attr_accessor :cards
     def initialize
