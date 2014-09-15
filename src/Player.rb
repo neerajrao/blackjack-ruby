@@ -97,7 +97,7 @@ class Player
     end
 
     def can_split_hand?(hand)
-        @hands.length < MAX_RESPLITS && hand.can_be_split? && hand.bet <= @money
+        @hands.length < MAX_HANDS_PER_PLAYER && hand.can_be_split? && hand.bet <= @money
     end
 
     def split_hand(hand)

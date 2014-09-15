@@ -139,7 +139,8 @@ class Dealer
 
         else
             if player_splits_with_move(move)
-                puts "Splitting your hand. No resplits are allowed."
+                puts "Splitting your hand. Resplits are allowed until you have "\
+                     "#{MAX_HANDS_PER_PLAYER} hands in all."
                 new_hand = player.split_hand(player_hand)
 
                 deal_to_hand(player_hand)

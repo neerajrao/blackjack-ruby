@@ -13,7 +13,7 @@ module Constants
                   "  * Splits allowed on same value cards\n" +
                   "  * Resplits allowed up to 4 hands\n\n"
 
-    MAX_RESPLITS = 4
+    MAX_HANDS_PER_PLAYER = 4
     MAX_PLAYERS = 7
     INIT_MONEY = 1000 # start players out with this amount
 
