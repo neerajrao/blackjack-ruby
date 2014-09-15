@@ -32,8 +32,7 @@ class Deck
         @cards.empty?
     end
 
-    # take a card from the deck
-    # if empty, re-init the deck. This way, the deck never runs out of cards
+    # if deck is empty, re-init the deck. This way, the deck never runs out of cards
     def pop
         reset if empty?
         @cards.pop

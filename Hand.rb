@@ -18,16 +18,20 @@ class Hand
         @cards = []
         @value = 0
         @bet = 0
+        @num_aces = 0
     end
 
     def to_s
-        repr = "Here is your hand:\n" +
-               "------------------\n" +
-               "Hand cards: #{@cards.join(', ')}\nHand value: #{@value}"
-        @bet>0? repr+"\nBet on hand: $#{@bet}\n\n":repr+"\n\n" # show bet if non-zero
+        bet_display_value = "Bet on hand: #{@bet}\n" if @bet > 0
+
+        repr = "Hand cards: #{@cards.join(', ')}\n" +
+               "Hand value: #{@value}\n" +
+               "#{bet_display_value}\n"
     end
 
     def push(card)
+        @num_aces += 1 if card.is_ace
+
         @cards.push(card)
         @value += card.value
         #TODO: Aces should count as 11 or 1
@@ -50,10 +54,16 @@ class Hand
     end
 
     def is_bust?
-        @value > MAX_VALUE
+        @value > BLACKJACK_VALUE
+    end
+
+    def has_ace?
+        @num_aces > 0
     end
 
     def is_blackjack?
-        #TODO
+        is_newly_dealt? &&
+        @num_aces == 1 && # blackjack can only have one ace
+        @value == BLACKJACK_VALUE
     end
 end

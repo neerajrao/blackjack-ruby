@@ -2,7 +2,7 @@ $:.unshift('.') # include cwd in path
 require 'Deck'
 
 class Card
-    attr_reader :value
+    attr_reader :value, :is_ace
 
     def initialize(faceval, suit)
         unless Deck::FACES.include?faceval
@@ -14,12 +14,15 @@ class Card
         end
 
         @face = "#{faceval.to_s} #{suit}"
+        @is_ace = false
         case faceval
         when 2..10: @value = faceval
         when "J": @value = 10
         when "Q": @value = 10
         when "K": @value = 10
-        when "A": @value = 1
+        when "A"
+            @value = 11
+            @is_ace = true
         end
     end
 

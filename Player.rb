@@ -19,11 +19,11 @@ class Player
         "Player #{position}"
     end
 
-    def clear_hands
+    def reset_hands
         @hands.map{|hand| hand.reset}
     end
 
-    def is_not_bankrupt?
+    def is_solvent?
         @money > 0
     end
 
