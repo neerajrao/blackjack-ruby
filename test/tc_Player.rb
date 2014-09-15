@@ -48,6 +48,14 @@ class TestPlayer < Test::Unit::TestCase
         assert_equal(false, @class_under_test.can_double_down_with_hand?(hand))
     end
 
+    def test_reset_hands
+        @class_under_test.hands.push(Hand.new)
+        assert_equal(2, @class_under_test.hands.length)
+
+        @class_under_test.reset_hands
+        assert_equal(1, @class_under_test.hands.length)
+    end
+
     def test_double_down_on_hand
         hand = @class_under_test.hands[0]
 
@@ -88,6 +96,7 @@ class TestPlayer < Test::Unit::TestCase
         assert_equal(INIT_MONEY - bet_amount, @class_under_test.money)
         assert_equal(bet_amount, hand.bet)
         assert_equal(bet_amount, new_hand.bet)
+        assert_equal(1, hand.cards.length)
         assert_equal(2, @class_under_test.hands.length)
     end
 end

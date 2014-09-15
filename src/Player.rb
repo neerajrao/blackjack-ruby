@@ -20,7 +20,7 @@ class Player
     end
 
     def reset_hands
-        @hands.map{|hand| hand.reset}
+        @hands = [Hand.new]
     end
 
     def is_solvent?
@@ -84,7 +84,7 @@ class Player
     end
 
     def can_split_hand?(hand)
-        hand.can_be_split? && hand.bet <= @money
+        @hands.length < MAX_RESPLITS && hand.can_be_split? && hand.bet <= @money
     end
 
     def split_hand(hand)

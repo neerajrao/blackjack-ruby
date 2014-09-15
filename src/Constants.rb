@@ -6,8 +6,9 @@ module Constants
                   "  * Double-down only on first two cards\n" +
                   "  * Double-down limited to 100% of bet\n" +
                   "  * Splits allowed on same value cards\n" +
-                  "  * No resplits\n\n"
+                  "  * Resplits allowed up to 4 hands\n\n"
 
+    MAX_RESPLITS = 4
     MAX_PLAYERS = 7
     INIT_MONEY = 1000 # start players out with this amount
 
@@ -17,7 +18,7 @@ module Constants
     NORMAL_PAYOFF = 2
     BLACKJACK_PAYOFF = 2.5
 
-    SUITS = ["♠", "♥", "♦", "♣"]
+    SUITS = ["♠", "♥", "♦", "♣"] # suits are technically of no importance, but we keep them for printing
     FACES = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
 
     STAND_KEY = "s"
