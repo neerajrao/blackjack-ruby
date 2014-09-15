@@ -10,7 +10,7 @@ House rules:
 * Double-down only on first two cards
 * Double-down limited to 100% of bet
 * Splits allowed on same value cards
-* No resplits
+* Resplits allowed up to 4 hands
 
 Most code is written to be self-documenting.
 =end
