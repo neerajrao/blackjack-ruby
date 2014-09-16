@@ -4,7 +4,8 @@ require 'Player'
 require 'Constants'
 
 =begin rdoc
-Most code is written to be self-documenting.
+Code is written to be self-documenting and as close as possible to
+idiomatic English.
 
 House rules:
 * Blackjack wins 3:2
@@ -13,6 +14,8 @@ House rules:
 * Double-down limited to 100% of bet
 * Splits allowed on same value cards
 * Resplits allowed up to 4 hands
+
+We assume decks never run out of cards.
 
 This script starts the Blackjack game. It prompts for the number of
 players in the Blackjack game and then passes control to the

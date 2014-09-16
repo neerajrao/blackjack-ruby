@@ -2,6 +2,7 @@
 This module defines various constants used by the various
 Blackjack classes.
 =end
+
 module Constants
     HOUSE_RULES = "House rules:\n" +
                   "------------\n" +

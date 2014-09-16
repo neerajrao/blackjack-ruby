@@ -4,7 +4,8 @@ require 'Constants'
 include Constants
 
 =begin rdoc
-Code is written to be self-documenting.
+Code is written to be self-documenting and as close as possible to
+idiomatic English.
 
 Methods are named similary to Ruby built-ins so they are easy
 to remember. E.g. pop to take a card from the deck
