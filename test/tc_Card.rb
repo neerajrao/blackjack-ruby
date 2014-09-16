@@ -19,6 +19,9 @@ class TestCard < Test::Unit::TestCase
 
     def test_to_s
         assert_equal("#{FACES[0]} #{SUITS[0]}", "#{@class_under_test}")
+
+        @class_under_test.is_hole_card = true
+        assert_equal(HOLE_CARD, "#{@class_under_test}")
     end
 
     def test_is_ace

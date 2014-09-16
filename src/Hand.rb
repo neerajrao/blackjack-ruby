@@ -35,8 +35,13 @@ class Hand
     def to_s
         bet_display_value = "Bet on hand: #{@bet}\n" if @bet > 0
 
+        # if the hand has a hole card (only for dealer's hands), hide its value before printing
+        possible_hole_card = @cards[1]
+        hand_value = @value
+        hand_value -= possible_hole_card.value if possible_hole_card && possible_hole_card.is_hole_card
+
         repr = "Hand cards: #{@cards.join(', ')}\n" +
-               "Hand value: #{@value}\n" +
+               "Hand value: #{hand_value}\n" +
                "#{bet_display_value}\n"
     end
 

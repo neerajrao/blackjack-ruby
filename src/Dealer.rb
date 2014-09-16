@@ -86,8 +86,9 @@ class Dealer
         end
 
         deal_initial_cards_to_hand(@hand)
+        hide_hole_card
         show_dealer_hand
-        puts "Initial cards dealt\n\n\n\n"
+        puts ">>> Initial cards dealt\n\n\n\n"
     end
 
     def reset_player_hands
@@ -100,6 +101,14 @@ class Dealer
 
     def deal_initial_cards_to_hand(hand)
         2.times{deal_to_hand(hand)}
+    end
+
+    def hide_hole_card
+        @hand.cards[1].is_hole_card = true
+    end
+
+    def show_hole_card
+        @hand.cards[1].is_hole_card = false
     end
 
     def show_dealer_hand
@@ -163,6 +172,9 @@ class Dealer
         end
     end
 
+    # the moves map built in this method maps a keyboard key to an informational
+    # message that will be displayed to the user. e.g. {"h" => "hit"}
+    # Include only the keys that make sense for the player and hand passed in
     def build_valid_moves_map_for_hand(player, hand)
         valid_moves_map = STAND_KEY_DESCR_MAP.merge(HIT_KEY_DESCR_MAP)
         valid_moves_map.merge!(DOUBLE_DOWN_KEY_DESCR_MAP) if player.can_double_down_with_hand?(hand)
@@ -187,6 +199,7 @@ class Dealer
         until self.should_stand?
             deal_to_hand(@hand)
         end
+        show_hole_card
         show_dealer_hand
     end
 

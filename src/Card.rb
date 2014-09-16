@@ -1,5 +1,7 @@
 $:.unshift("#{File.dirname(__FILE__)}") # add source directory to path
 require 'Deck'
+require 'Constants'
+include Constants
 
 =begin rdoc
 Code is written to be self-documenting.
@@ -11,6 +13,7 @@ printing.
 
 class Card
     attr_reader :value, :is_ace
+    attr_accessor :is_hole_card
 
     def initialize(faceval, suit)
         unless Deck::FACES.include?faceval
@@ -23,6 +26,8 @@ class Card
 
         @face = "#{faceval.to_s} #{suit}"
         @is_ace = false
+        @is_hole_card = false
+
         case faceval
         when 2..10: @value = faceval
         when "J": @value = 10
@@ -35,6 +40,10 @@ class Card
     end
 
     def to_s
-        @face
+        if @is_hole_card
+            HOLE_CARD
+        else
+            @face
+        end
     end
 end
