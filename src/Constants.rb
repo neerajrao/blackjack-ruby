@@ -5,7 +5,6 @@ Blackjack classes.
 module Constants
     HOUSE_RULES = "House rules:\n" +
                   "------------\n" +
-                  "  * No hole card\n" +
                   "  * Blackjack wins 3:2\n" +
                   "  * Dealer stands at 17\n" +
                   "  * Double-down only on first two cards\n" +
@@ -23,9 +22,14 @@ module Constants
     NORMAL_PAYOFF = 2
     BLACKJACK_PAYOFF = 2.5
 
+    HOLE_CARD = "Hole Card"
+
     SUITS = ["♠", "♥", "♦", "♣"] # suits are technically of no importance, but we keep them for printing
     FACES = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
 
+    # the hashes below map a keyboard key to an informational
+    # message that will be displayed to the user when he is
+    # asked to make a move.
     STAND_KEY = "s"
     STAND_KEY_DESCR_MAP = {STAND_KEY => "stand"}
     HIT_KEY = "h"

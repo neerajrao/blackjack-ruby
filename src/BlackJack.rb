@@ -7,7 +7,6 @@ require 'Constants'
 Most code is written to be self-documenting.
 
 House rules:
-* No hole card
 * Blackjack wins 3:2
 * Dealer stands at 17
 * Double-down only on first two cards
