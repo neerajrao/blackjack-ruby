@@ -15,11 +15,11 @@ class TestPlayer < Test::Unit::TestCase
         assert_equal(INIT_MONEY, @class_under_test.money)
     end
 
-    def test_is_solvent
-        assert_equal(true, @class_under_test.is_solvent?)
+    def test_is_bankrupt
+        assert_equal(false, @class_under_test.is_bankrupt?)
 
         @class_under_test.money = 0
-        assert_equal(false, @class_under_test.is_solvent?)
+        assert(@class_under_test.is_bankrupt?)
     end
 
     def test_set_bet

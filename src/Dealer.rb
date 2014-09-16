@@ -4,7 +4,8 @@ require 'Constants'
 include Constants
 
 =begin rdoc
-Code is written to be self-documenting.
+Code is written to be self-documenting and as close as possible to
+idiomatic English.
 
 This class represents the Blackjack dealer and, as such, implements
 the Blackjack game algorithm. We choose to separate the Player and
@@ -37,6 +38,10 @@ The +play_round+ function implements the game algorithm. A brief outline follows
 
 class Dealer
     def initialize(players)
+        unless players.length > 0
+            raise ArgumentError.new("Game should have at least one player")
+        end
+
         @hand = Hand.new
         @deck = Deck.new
         @players = players
@@ -65,7 +70,7 @@ class Dealer
 
         settle_bets_at_end_of_round
 
-        retain_only_solvent_players_at_end_of_round
+        remove_bankrupt_players_at_end_of_round
 
         @game_over = is_game_over?
     end
@@ -273,8 +278,8 @@ class Dealer
         end
     end
 
-    def retain_only_solvent_players_at_end_of_round
-        @players = @players.select {|player| player.is_solvent?}
+    def remove_bankrupt_players_at_end_of_round
+        @players.reject! {|player| player.is_bankrupt?}
     end
 
     def is_game_over?

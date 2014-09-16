@@ -2,7 +2,8 @@ $:.unshift("#{File.dirname(__FILE__)}") # add source directory to path
 require 'Hand'
 
 =begin rdoc
-Code is written to be self-documenting.
+Code is written to be self-documenting and as close as possible to
+idiomatic English.
 
 This class represents a Blackjack player. We choose to have a separate
 class for the Dealer because, logically, it is the dealer that implements
@@ -36,8 +37,8 @@ class Player
         @hands = [Hand.new]
     end
 
-    def is_solvent?
-        @money > 0
+    def is_bankrupt?
+        @money <= 0
     end
 
     # Prompt the player to make a move.
