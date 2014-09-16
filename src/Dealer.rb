@@ -75,8 +75,6 @@ class Dealer
         @game_over = is_game_over?
     end
 
-    # reset all hands
-    # deal initial two cards to all players and to self (dealer)
     def setup_round
         reset_player_hands
         reset_self_hand
