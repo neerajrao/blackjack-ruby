@@ -46,7 +46,7 @@ class Player
     #                    the user what pressing the corresponding letter will do.
     #                    Example: {"s"=>"stand", "d"=>"double-down"}
     def prompt_for_move(valid_moves_map)
-        prompt_options_info_msg = valid_moves_map.map{|pair| "#{pair[0]} for #{pair[1]}"}.join(", ")
+        prompt_options_info_msg = valid_moves_map.map{|pair| "'#{pair[0]}' for #{pair[1]}"}.join(", ")
         choice = ""
         loop do
             puts "Please make a choice"
