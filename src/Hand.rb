@@ -20,7 +20,7 @@ is eligible to be split or to check if it makes a Blackjack/natural.
 
 class Hand
     attr_accessor :bet
-    attr_reader :cards, :value
+    attr_reader :cards
 
     def initialize
         reset
@@ -38,7 +38,7 @@ class Hand
 
         # if the hand has a hole card (only for dealer's hands), hide its value before printing
         possible_hole_card = @cards[1]
-        hand_value = @value
+        hand_value = value
         hand_value -= possible_hole_card.value if possible_hole_card && possible_hole_card.is_hole_card
 
         repr = "Hand cards: #{@cards.join(', ')}\n" +
@@ -51,7 +51,15 @@ class Hand
 
         @cards.push(card)
         @value += card.value
-        #TODO: Aces should count as 11 or 1
+    end
+
+    def value
+        # pick Ace value 1 or 11
+        if has_ace? && @value < 12
+            @value + 10
+        else
+            @value
+        end
     end
 
     def pop
@@ -64,14 +72,13 @@ class Hand
         @cards.length == 2
     end
 
-    # all 10-value cards are treated as the same for a split
-    # E.g. a 10 and a J pair is eligible for a split
     def can_be_split?
+        # all 10-value cards (e.g. a 10 and a J pair) are treated as eligible for a split
         is_newly_dealt? && @cards[-1].value == @cards[-2].value
     end
 
     def is_bust?
-        @value > BLACKJACK_VALUE
+        value > BLACKJACK_VALUE
     end
 
     def has_ace?
@@ -81,6 +88,6 @@ class Hand
     def is_blackjack?
         is_newly_dealt? &&
         @num_aces == 1 && # blackjack can only have one ace
-        @value == BLACKJACK_VALUE
+        value == BLACKJACK_VALUE
     end
 end

@@ -35,7 +35,7 @@ class Card
         when "Q": @value = 10
         when "K": @value = 10
         when "A"
-            @value = 11
+            @value = 1
             @is_ace = true
         end
     end
