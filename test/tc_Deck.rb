@@ -19,4 +19,12 @@ class TestDeck < Test::Unit::TestCase
         @class_under_test.pop
         assert_equal(51, @class_under_test.cards.length)
     end
+
+    def test_deck_replenishes_on_too_many_pops
+        until @class_under_test.cards.empty?
+            @class_under_test.pop
+        end
+        assert(@class_under_test.cards.empty?)
+        assert_not_nil(@class_under_test.pop)
+    end
 end
